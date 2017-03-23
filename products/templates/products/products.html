@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,21 @@
 </head>
 <body>
 {% block content %}
-<h1>Products page</h1>
+<h1>Product catalog</h1>
+{% for item in list %}
+    <div class="col-md-4">
+        <h3><a href='{{ item.get_absolute_url }}'>
+            {% if item.photo %}
+                <img src="{{ MEDIA_URL }}{{ item.photo }}" class="img-responsive" style="width:300px;height:300px;"/>
+            {% else %}
+                <img class='img-responsive' src="{% static 'img/unavailable.png' %}" style="width:300px;height:300px;" />
+            {% endif %}
+        </a>
+            <a href='{{ item.get_absolute_url }}'> <h3>{{ item.name }}</h3></a>
+        </h3>
+        <h4>{{ item.price_in_dollars }}</h4>
+    </div>
+{% endfor %}
 {% endblock %}
 </body>
 </html>
